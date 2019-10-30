@@ -13,17 +13,23 @@
  *  - Seinni leikur kláraðist í þrem ágiskunum.
  */
 
- const games = [];
+const games = [];
 
 
- /**
-  * Byrjar leikinn okkar með því að kalla í play().
-  * Eftir að play() klárar þá er boðið notandanum að spila annann leik með confirm()
-  * Ef notandi ýtir á "ok" þá er annar leikur spilaður.
-  * Ef notandi ýtir á "cancel" þá er sótt niðurstöður með getResults() og þær birtar með alert().
-  */
+/**
+ * Byrjar leikinn okkar með því að kalla í play().
+ * Eftir að play() klárar þá er boðið notandanum að spila annann leik með confirm()
+ * Ef notandi ýtir á "ok" þá er annar leikur spilaður.
+ * Ef notandi ýtir á "cancel" þá er sótt niðurstöður með getResults() og þær birtar með alert().
+ */
 function start() {
-  play();
+  alert("Má bjóða þér að giska á tölu á bilinu 0 - 100?");
+  do {
+    play();
+  }
+  while(confirm("Má bjóða þér að spila aftur?")){
+
+    }
 }
 
 /**
@@ -41,19 +47,31 @@ function start() {
  * Þarf aðútfæra með lykkju og flæðisstýringum
  */
 function play() {
-  const random = randomNumber(1,100;
+ 
+  const random = randomNumber(1, 100);
+  let numberOfGames = 0;
+  let numberOfGuesses = 0;
+
+  let gisk = prompt("Giskaðu á tölu: ");
+
+  let answer = getResponse(gisk, random);
+  console.log(answer);2
+  
+   
+
+
 }
 
 /**
  * Skilar niðurstöðum um spilaða leiki sem streng.
- * Fjöldi liekja er skilað ásamt meðalfjölda giska, t.d.:
+ * Fjölda leikja er skilað ásamt meðalfjölda giska, t.d.:
  *    "þú spilaðir 10 leiki
  *     Meðalfjöldi ágiskana var 5"
  * ATH að meðalfjöldi kemur í nýrri línu.
  * Ef enginn leikur var spilaður er skilað:
  *    "Þú spilaðir engann leik >_<"
  */
-function getResults(){
+function getResults() {
 
 }
 
@@ -65,7 +83,7 @@ function getResults(){
  * 
  * þarf að útfæra með lykkju.
  */
-function calculateAverage(){
+function calculateAverage() {
 
 }
 
@@ -73,7 +91,7 @@ function calculateAverage(){
  * tekur in input sem streng og skilar þeirri tölu sem hægt er að ná þar úr.
  * Ef ekki er hægt að ná tölu úr input er skilað null
  */
-function parseGuess(input){
+function parseGuess(input) {
 
 }
 
@@ -92,9 +110,33 @@ function parseGuess(input){
  * Þarf að útfæra með flæðistýringu.
  * Math.abs skilar algildi tölu: |a| = Math.abs(a)
  */
-function getResponse(guess, correct){
-  return 'Ekki rétt';
+function getResponse(guess, correct) {
+  let difference = Math.abs(correct-guess);
+
+  if((guess < 0) || (100 < guess) || (isNaN(guess))){
+    return 'Ekki rétt';
+  }
+  else if(guess === correct){
+    return 'Rétt :D';
+  }
+  else if(difference <= 5){
+    return 'Mjög nálægt';
+  }
+  else if(difference <= 10){  
+    return 'Nálægt';
+  }
+  else if(difference <= 20){
+    return 'Frekar lang frá';
+  }
+  else if(difference <= 50){
+    return 'Langt frá';
+  }
+  else {
+    return 'Mjög langt frá';
+  }
+
 }
+
 
 /**
  * Skilar tölu af handahófi á bilinu [min, max]

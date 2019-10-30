@@ -27,9 +27,9 @@ function start() {
   do {
     play();
   }
-  while(confirm("Má bjóða þér að spila aftur?")){
+  while (confirm("Má bjóða þér að spila aftur?")) {
 
-    }
+  }
 }
 
 /**
@@ -47,19 +47,22 @@ function start() {
  * Þarf aðútfæra með lykkju og flæðisstýringum
  */
 function play() {
- 
   const random = randomNumber(1, 100);
-  let numberOfGames = 0;
+  var numberOfGames = 0;
   let numberOfGuesses = 0;
 
-  let gisk = prompt("Giskaðu á tölu: ");
 
-  let answer = getResponse(gisk, random);
-  console.log(answer);2
   
-   
-
-
+  while (answer !== "Rétt") {
+   let guess = prompt("Giskaðu á tölu: ");
+    if (guess === null) {
+      return;
+    }
+    let changedToNumber = parseGuess(guess);
+    var answer = getResponse(changedToNumber, random);
+    alert(answer);
+    numberOfGuesses++;
+  }
 }
 
 /**
@@ -92,6 +95,13 @@ function calculateAverage() {
  * Ef ekki er hægt að ná tölu úr input er skilað null
  */
 function parseGuess(input) {
+  let change = parseInt(input, 10);
+  if (isNaN(change)) {
+    return (null);
+  }
+  else {
+    return change;
+  }
 
 }
 
@@ -111,28 +121,28 @@ function parseGuess(input) {
  * Math.abs skilar algildi tölu: |a| = Math.abs(a)
  */
 function getResponse(guess, correct) {
-  let difference = Math.abs(correct-guess);
-
-  if((guess < 0) || (100 < guess) || (isNaN(guess))){
-    return 'Ekki rétt';
+  let difference = Math.abs(correct - guess);
+  
+  if ((guess < 0) || (100 < guess) || (isNaN(guess))) {
+    return ("Ekki rétt");
   }
-  else if(guess === correct){
-    return 'Rétt :D';
+  else if (guess === correct) {
+    return `Rétt`;
+  } 
+  else if (difference < 5) {
+    return ('Mjög nálægt');
   }
-  else if(difference <= 5){
-    return 'Mjög nálægt';
+  else if (difference < 10) {
+    return ('Nálægt');
   }
-  else if(difference <= 10){  
-    return 'Nálægt';
+  else if (difference < 20) {
+    return ('Frekar lang frá');
   }
-  else if(difference <= 20){
-    return 'Frekar lang frá';
-  }
-  else if(difference <= 50){
-    return 'Langt frá';
+  else if (difference < 50) {
+    return ('Langt frá');
   }
   else {
-    return 'Mjög langt frá';
+    return ('Mjög langt frá');
   }
 
 }

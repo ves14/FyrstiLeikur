@@ -17,7 +17,8 @@ const games = [];
 
 
 /**
- * Byrjar leikinn okkar með því að kalla í play().
+ * Byrjar leiki
+ * nn okkar með því að kalla í play().
  * Eftir að play() klárar þá er boðið notandanum að spila annann leik með confirm()
  * Ef notandi ýtir á "ok" þá er annar leikur spilaður.
  * Ef notandi ýtir á "cancel" þá er sótt niðurstöður með getResults() og þær birtar með alert().
@@ -30,6 +31,8 @@ function start() {
   while (confirm("Má bjóða þér að spila aftur?")) {
 
   }
+  let info = getResults();
+  alert(info);
 }
 
 /**
@@ -48,14 +51,12 @@ function start() {
  */
 function play() {
   const random = randomNumber(1, 100);
-  var numberOfGames = 0;
-  let numberOfGuesses = 0;
+   numberOfGuesses = 0;
 
-
-  
   while (answer !== "Rétt") {
-   let guess = prompt("Giskaðu á tölu: ");
+    let guess = prompt("Giskaðu á tölu: ");
     if (guess === null) {
+      alert("Hætt í leik!")
       return;
     }
     let changedToNumber = parseGuess(guess);
@@ -63,6 +64,7 @@ function play() {
     alert(answer);
     numberOfGuesses++;
   }
+  games.push(numberOfGuesses);
 }
 
 /**
@@ -75,7 +77,16 @@ function play() {
  *    "Þú spilaðir engann leik >_<"
  */
 function getResults() {
-
+  let averageGuess = calculateAverage();
+  if (games.length === 0) {
+    return "Þú spilaðir engan leik :(";
+  }
+  else if (games.length === 1){
+    return `Þú spilaðir ${games.length} leik \n Meðalfjöldi ágiskana var ${calculateAverage}`;
+  }
+  else {
+    return `Þú spilaðir ${games.length} leiki \n Meðalfjöldi ágiskana var ${averageGuess}`;
+  }
 }
 
 /**
@@ -87,6 +98,13 @@ function getResults() {
  * þarf að útfæra með lykkju.
  */
 function calculateAverage() {
+  let sum = 0;
+
+  for (let i = 0; i < games.length; i++) {
+    sum += games[i];
+  }
+  let average = sum / games.length;
+  return average.toFixed(2);
 
 }
 
@@ -122,13 +140,13 @@ function parseGuess(input) {
  */
 function getResponse(guess, correct) {
   let difference = Math.abs(correct - guess);
-  
+
   if ((guess < 0) || (100 < guess) || (isNaN(guess))) {
     return ("Ekki rétt");
   }
   else if (guess === correct) {
     return `Rétt`;
-  } 
+  }
   else if (difference < 5) {
     return ('Mjög nálægt');
   }
@@ -136,7 +154,7 @@ function getResponse(guess, correct) {
     return ('Nálægt');
   }
   else if (difference < 20) {
-    return ('Frekar lang frá');
+    return ('Frekar langt frá');
   }
   else if (difference < 50) {
     return ('Langt frá');

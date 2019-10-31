@@ -24,17 +24,16 @@ const games = [];
  * Ef notandi ýtir á "cancel" þá er sótt niðurstöður með getResults() og þær birtar með alert().
  */
 function start() {
-  let annan;
+  let again;
   do {
     if(play()){
-      annan=confirm("Má bjóða þér að spila aftur?");
+      again=confirm("Má bjóða þér að spila aftur?");
     }
     else{
       alert("Hætt í leik")
     }
   }
   while (annan) {
-
   }
 
   let info = getResults();
@@ -57,7 +56,6 @@ function start() {
  */
 function play() {
   const random = randomNumber(1, 100);
-  console.log(random);
    numberOfGuesses = 0;
   let answer;
 
@@ -122,7 +120,7 @@ function calculateAverage() {
 function parseGuess(input) {
   let change = parseInt(input, 10);
   if (isNaN(change)) {
-    return (null);
+    return NaN;
   }
   else {
     return change;
@@ -147,6 +145,7 @@ function parseGuess(input) {
  */
 function getResponse(guess, correct) {
   let difference = Math.abs(correct - guess);
+  
 
   if ((guess < 0) || (100 < guess) || (isNaN(guess))) {
     return ("Ekki rétt");

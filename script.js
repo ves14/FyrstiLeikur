@@ -24,13 +24,19 @@ const games = [];
  * Ef notandi ýtir á "cancel" þá er sótt niðurstöður með getResults() og þær birtar með alert().
  */
 function start() {
-  alert("Má bjóða þér að giska á tölu á bilinu 0 - 100?");
+  let annan;
   do {
-    play();
+    if(play()){
+      annan=confirm("Má bjóða þér að spila aftur?");
+    }
+    else{
+      alert("Hætt í leik")
+    }
   }
-  while (confirm("Má bjóða þér að spila aftur?")) {
+  while (annan) {
 
   }
+
   let info = getResults();
   alert(info);
 }
@@ -51,16 +57,17 @@ function start() {
  */
 function play() {
   const random = randomNumber(1, 100);
+  console.log(random);
    numberOfGuesses = 0;
+  let answer;
 
   while (answer !== "Rétt") {
-    let guess = prompt("Giskaðu á tölu: ");
+    let guess = prompt("Giskaðu á tölu á bilinu 0 - 100: ");
     if (guess === null) {
-      alert("Hætt í leik!")
       return;
     }
     let changedToNumber = parseGuess(guess);
-    var answer = getResponse(changedToNumber, random);
+    answer = getResponse(changedToNumber, random);
     alert(answer);
     numberOfGuesses++;
   }
@@ -82,10 +89,10 @@ function getResults() {
     return "Þú spilaðir engan leik :(";
   }
   else if (games.length === 1){
-    return `Þú spilaðir ${games.length} leik \n Meðalfjöldi ágiskana var ${calculateAverage}`;
+    return `Þú spilaðir ${games.length} leik \n Meðalfjöldi ágiskana var ${averageGuess}`;
   }
   else {
-    return `Þú spilaðir ${games.length} leiki \n Meðalfjöldi ágiskana var ${averageGuess}`;
+    return `Þú spilaðir ${games.length} leiki \n Meðalfjöldi ágiskana var` + averageGuess;
   }
 }
 

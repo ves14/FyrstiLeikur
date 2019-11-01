@@ -24,20 +24,13 @@ const games = [];
  * Ef notandi ýtir á "cancel" þá er sótt niðurstöður með getResults() og þær birtar með alert().
  */
 function start() {
-  let again;
-  do {
-    if(play()){
-      again=confirm("Má bjóða þér að spila aftur?");
-    }
-    else{
-      alert("Hætt í leik")
-    }
+  play();
+  while (confirm('Viltu spila annan leik?')){
+    play();
   }
-  while (annan) {
-  }
+  let results = getResults();
+  alert(results);
 
-  let info = getResults();
-  alert(info);
 }
 
 /**
@@ -56,14 +49,15 @@ function start() {
  */
 function play() {
   const random = randomNumber(1, 100);
-   numberOfGuesses = 0;
+  numberOfGuesses = 0;
   let answer;
 
   while (answer !== "Rétt") {
     let guess = prompt("Giskaðu á tölu á bilinu 0 - 100: ");
     if (guess === null) {
-      return;
+      return ("Hætt í leik");
     }
+
     let changedToNumber = parseGuess(guess);
     answer = getResponse(changedToNumber, random);
     alert(answer);
@@ -86,7 +80,7 @@ function getResults() {
   if (games.length === 0) {
     return "Þú spilaðir engan leik :(";
   }
-  else if (games.length === 1){
+  else if (games.length === 1) {
     return `Þú spilaðir ${games.length} leik \n Meðalfjöldi ágiskana var ${averageGuess}`;
   }
   else {
@@ -120,7 +114,7 @@ function calculateAverage() {
 function parseGuess(input) {
   let change = parseInt(input, 10);
   if (isNaN(change)) {
-    return NaN;
+    return null;
   }
   else {
     return change;
@@ -145,7 +139,7 @@ function parseGuess(input) {
  */
 function getResponse(guess, correct) {
   let difference = Math.abs(correct - guess);
-  
+
 
   if ((guess < 0) || (100 < guess) || (isNaN(guess))) {
     return ("Ekki rétt");
